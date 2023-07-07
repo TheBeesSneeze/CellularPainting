@@ -11,6 +11,8 @@ function RandomizeSettings() {
 	_pathModesIndex = RandomInt(0, 3);
 
 	SplitColorQueues = RandomBool();
+
+	FitCanvas();
 }
 
 function OnSpaceDown()
