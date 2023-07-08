@@ -1,4 +1,5 @@
-make it so you can hold a key and click to make more worms / clicking during generation adds more worms?
+= GENERAL =
+hold a key and click to make more worms / clicking during generation adds more worms?
 
 settings UI moves
 
@@ -7,17 +8,23 @@ Fit canvas on screen size change
 fix log sliders
 
 clicking on color generate with that color
-
-make next threads appear after different times
-
+	* make this a (secret?) setting
+	* oldGrid variable
+ 
 highlight cells for hex code
 
+advanced settings menu for weird things
+
+clear canvas button
 
 
-
-maybe touch up behavior for random cells that land on filled cells
-
+= CONTROLS =
 X space : opens settings
 _ esc : pause render
 _ click while render : add new worm
 _ shift click while render : start over
+_ R : reset grid and randomize settings  
+
+
+= MAYBE =
+maybe touch up behavior for random cells that land on filled cells

@@ -18,11 +18,12 @@ function RandomizeSettings() {
 
 function OnSpaceDown()
 {
-	if (settings.style.opacity <= 0)  // reveal menu
-		LerpUITransparency(settings, 1, 0.5);
-	
-	if (settings.style.opacity >= 1)  //hide menu
+	if (settings.style.opacity >= 0.9)  //hide menu
 		LerpUITransparency(settings, 0, 0.5);
+
+
+	else (settings.style.opacity <= 0)  // reveal menu
+		LerpUITransparency(settings, 1, 0.5);
 }
 
 function OnEscDown() {
