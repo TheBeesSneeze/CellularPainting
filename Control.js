@@ -27,18 +27,37 @@ canvas.onclick = function clickEvent(e)
     NewHuegene(mouseX,mouseY);
 }
 
-wormSlider.onclick = function clickEvent(e) {
-    i = Math.pow(1.585, wormSlider.value/10);
-    i = Math.floor(i);
-    BaseWormCount = i;
-
+settings.onclick = function clickEvent(e) {
     UpdateSettingsMenu();
 }
 
-colorSlider.onclick = function clickEvent(e) {
-    RandomOffset = Number(colorSlider.value);
+pixelSizeSlide.onclick = function clickEvent(e) {
+    ppu = Number(pixelSizeSlide.value);
+    //MillisecondsItTakesForWormsToAppear = (16 - ppu) * 1000;
 
-    UpdateSettingsMenu();
+    FitCanvas();
+}
+
+renderTypeButton.onclick = function clickEvent(e) {
+
+    _pathModesIndex++;
+    if (_pathModesIndex >= PathModes.length)
+        _pathModesIndex = 0;
+
+}
+
+wormSlider.onclick = function clickEvent(e) {
+    var i = Math.pow(1.585, wormSlider.value/100);
+    i = Math.floor(i);
+    BaseWormCount = i;
+}
+
+colorSlider.onclick = function clickEvent(e) {
+    //RandomOffset = Number(colorSlider.value);
+
+    var i = Math.pow(1.741, colorSlider.value / 100);
+    i = Math.floor(i);
+    RandomOffset = i;
 }
 
 blendColorDiv.onclick = function clickEvent(e) {
@@ -53,7 +72,6 @@ fastRenderDiv.onclick = function clickEvent(e) {
 randomizeButton.onclick = function clickEvent(e) {
 
     RandomizeSettings();
-    UpdateSettingsMenu();
 }
 
 window.onkeyup = function (e) {
@@ -63,6 +81,11 @@ window.onkeyup = function (e) {
 window.onkeydown = function (e) {
     pressedKeys[e.keyCode] = true;
 
+    console.log("key: " + e.keyCode);
+
     if (pressedKeys[32]) //space
         OnSpaceDown();
+
+    if (pressedKeys[27]) //esc
+        OnEscDown();
 }

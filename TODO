@@ -1,9 +1,23 @@
 make it so you can hold a key and click to make more worms / clicking during generation adds more worms?
 
-add settings UI
+settings UI moves
 
 Fit canvas on screen size change
 
-make color variant log
+fix log sliders
 
-make clicking on color generate with that color
+clicking on color generate with that color
+
+make next threads appear after different times
+
+highlight cells for hex code
+
+
+
+
+maybe touch up behavior for random cells that land on filled cells
+
+X space : opens settings
+_ esc : pause render
+_ click while render : add new worm
+_ shift click while render : start over

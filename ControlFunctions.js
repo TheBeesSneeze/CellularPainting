@@ -1,3 +1,4 @@
+
 function RandomizeSettings() {
 	ppu = RandomInt(4, 20);
 
@@ -22,4 +23,8 @@ function OnSpaceDown()
 	
 	if (settings.style.opacity >= 1)  //hide menu
 		LerpUITransparency(settings, 0, 0.5);
+}
+
+function OnEscDown() {
+	paused = !paused;
 }

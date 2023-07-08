@@ -1,6 +1,9 @@
 //creates / resets the Grid
 function CreateGrid()
 {
+    if (refreshIntervalId != null)
+        clearInterval(refreshIntervalId);
+
     Grid = new Array(Width).fill(null).map(() => new Array(Height).fill(null));
 
     for (var x = 0; x < Width; x++)
@@ -30,10 +33,7 @@ function NewHuegene(StartX, StartY)
 
     NewCellAt(StartX, StartY,0);
 
-    for (var i = 1; i < BaseWormCount; i++)
-    {
-        NewRandomCell(i);
-    }
+    
 
     CreateHuegeneLoop();
 }
@@ -42,16 +42,26 @@ function NewHuegene(StartX, StartY)
 //THIS FUNCTION IS NOT THE LOOP. ONLY CALL IT ONCE.
 function CreateHuegeneLoop()
 {
+    var startTime = Date.now();
+    var timeBetweenWorms = MillisecondsItTakesForWormsToAppear / BaseWormCount;
+    var wormsPresent = 1;
+
     refreshIntervalId = setInterval(function () {
 
+        //if (paused)
+        //    break;
+
+        //iterate through all active queues
         for (var i = 0; i < ColorQueues.length; i++) {
 
+            //end when all queues are empty
             if (ColorQueues.length <= 0) {
                 console.log("ITS OVER");
                 clearInterval(refreshIntervalId);
                 return;
             }
 
+            //make rendering faster with more worms!!
             if (SplitColorQueues && ColorQueues[i].length > SplitColorQueuesAfter) {
                 ColorQueues.push(ColorQueues[i].splice(SplitColorQueuesAfter / 2, SplitColorQueuesAfter / 2));
                 Continue = true;
@@ -59,9 +69,20 @@ function CreateHuegeneLoop()
 
             ProcessNextCell(i);
 
+            //remove empty qs
             if (ColorQueues[i].length == 0) {
                 ColorQueues.splice(i, 1);
             }
+        }
+
+        //start new queue if wormcount calls for it (and its been enough time)
+        if (wormsPresent < BaseWormCount && Date.now() - startTime >= timeBetweenWorms) {
+            console.log("new guy!");
+            startTime = Date.now();
+
+            NewRandomCell(wormsPresent);
+
+            wormsPresent++;
         }
 
     }, 1);//run this thang every 0.001 seconds
@@ -94,6 +115,8 @@ function NewCellAt(x, y, QueueIndex)
     center.x = x;
     center.y = y;
 
+    ColorQueues.push([]);
+
     EnqueueNeighbors(x, y, QueueIndex);
 
     DrawCell(x, y);
@@ -101,10 +124,25 @@ function NewCellAt(x, y, QueueIndex)
 
 function NewRandomCell(QueueIndex)
 {
-    var centerX = RandomInt(0, Width);
-    var centerY = RandomInt(0, Height);
+    var newX = 0;
+    var newY = 0;
 
-    NewCellAt(centerX, centerY, QueueIndex);
+    //six strikes and youre out
+    for (var i = 0; i < 6; i++) {
+        newX = RandomInt(0, Width);
+        newY = RandomInt(0, Height);
+
+        var c = Grid[newX][newY]; //c is so cool here. what does it stand for? cell? color? well, here's a secret kid. i dont know either
+
+        if (c == null)
+            break;
+
+        if (!c.Queued && !c.Assigned) {
+            NewCellAt(newX, newY, QueueIndex);
+            return;
+        }
+    }
+    console.log("failed to find random spot completely");
 }
 
 function HuegeneCell(x, y, QueueIndex)
@@ -229,7 +267,7 @@ function DequeueNewCell(QueueIndex) //but toby? doesnt that make it a stack? SHU
         return null;
     }
 
-    if (pathMode == "Newest")
+    if (pathMode == "Worms")
     {
         var n = 4;
         if (ColorQueue.length < 4)
@@ -240,7 +278,7 @@ function DequeueNewCell(QueueIndex) //but toby? doesnt that make it a stack? SHU
         return ColorQueue.splice(o, 1)[0]; //WHY DOES IT BECOME AN ARRAY GRRR
     }
 
-    else if (pathMode == "Oldest")
+    else if (pathMode == "Even Spread")
         return ColorQueue.splice(0, 1)[0]; 
 
     else if (pathMode == "Burst")

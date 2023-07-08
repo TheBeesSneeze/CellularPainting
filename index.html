@@ -24,27 +24,41 @@
 
         <div id="settings" class="menu" style="opacity:1">
 
-            <p id="wormText">Thread Count:</p>
-            <input id="wormSlider" type="range" min=10 max=100 value=1 class="slider">
+            <!-- Pixel Size -->
+            <p id="pixelSizeText">Pixel Size: </p>
+            <input id="pixelSizeSlide" type="range" min=1 max=25 value=1 class="slider">
             <br>
 
+            <!-- Render type -->
+            <button id="renderTypeButton">Render Type: </button>
+
+            <!-- Thread Count -->
+            <p id="wormText">Simultaneous Thread Count:</p>
+            <input id="wormSlider" type="range" min=100 max=1000 value=1 class="slider">
+            <br>
+
+            <!-- Color Variance -->
             <p id="colorVarianceText">Color Variance</p>
-            <input id="colorSlider" type="range" min=1 max=255 value=1 class="slider">
+            <input id="colorSlider" type="range" min=10 max=1000 value=1 class="slider">
             <br>
 
+            <!-- Blend Colors -->
             <div id="blendColorDiv">
                 <input id="blendCheckBox" type="checkbox" name="blendCheckBox">
-                <label for="blendCheckBox"> Blend colors?</label>
+                <label for="blendCheckBox"> Blend Colors</label>
             </div><br>
 
+            <!-- Fast Rendering -->
             <div id="fastRenderDiv">
                 <input id="fastRenderBox" type="checkbox" name="fastRenderBox">
-                <label for="fastRenderBox"> Fast Rendering?</label>
+                <label for="fastRenderBox"> Fast Rendering</label>
             </div><br>
 
+            <!-- Randomizer Button -->
             <button id="randomizeButton">Randomize Settings</button>
 
             <p>more features coming soon! im tired right now</p>
+            <p>Press space to close this menu.</p>
         </div>
 
         <canvas id="canvas" width="2000px" height="1000px" style="border-color: black;"></canvas>

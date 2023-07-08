@@ -1,7 +1,14 @@
+window.addEventListener('resize', OnWindowResize);
+
 var canvas = document.getElementById("canvas");
 var info = document.getElementById("info");
 
 var settings = document.getElementById("settings");
+
+var pixelSizeText = document.getElementById("pixelSizeText");
+var pixelSizeSlide = document.getElementById("pixelSizeSlide");
+
+var renderTypeButton = document.getElementById("renderTypeButton");
 
 var wormText = document.getElementById("wormText");
 var wormSlider = document.getElementById("wormSlider");
@@ -26,9 +33,15 @@ function ResetUI() {
 }
 
 function UpdateSettingsMenu() {
-    
+    //weird pick bro?
+    MillisecondsItTakesForWormsToAppear = (16 - ppu) * (1000/BaseWormCount);
 
-    wormText.textContent = "Thread Count: " + BaseWormCount;
+    pixelSizeText.textContent = "Pixel Size: " + ppu + "px";
+    pixelSizeSlide.value = ppu;
+
+    renderTypeButton.textContent = "Render Type: " + PathModes[_pathModesIndex];
+
+    wormText.textContent = "Simultaneous Thread Count: " + BaseWormCount;
     /*
     var v = Math.pow(1.585, 1 / BaseWormCount);
     v = Math.round(v);
@@ -59,6 +72,8 @@ function FitCanvas() {
         Height = Math.round(window.innerHeight / ppu);
         canvas.height = window.innerHeight;
     }
+
+    CreateGrid();
 }
 
 
@@ -67,7 +82,7 @@ function LerpUITransparency(element, targetValue, seconds)
 {
     //console.log("fading...");
 
-    if (element.style.opacity == targetValue) {
+    if (Math.round(element.style.opacity) == targetValue) {
         return;
     }
 
@@ -77,7 +92,7 @@ function LerpUITransparency(element, targetValue, seconds)
     var fadeInterval = setInterval(function ()
     {
         if (i >= 1) {
-            console.log("element faded");
+            //console.log("element faded");
             clearInterval(fadeInterval);
             //info.style.display = "none";
             return;
@@ -89,4 +104,9 @@ function LerpUITransparency(element, targetValue, seconds)
         element.style.opacity = a; //omg we love roundoff errors
 
     }, seconds / 100);
+}
+
+function OnWindowResize() {
+    FitCanvas();
+    CreateGrid();
 }
