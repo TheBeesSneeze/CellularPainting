@@ -27,13 +27,11 @@ function CreateGrid()
 function NewHuegene(StartX, StartY)
 {
     //initialization stuff
-    HideUI();
+    
     //FitCanvas();
     CreateGrid();
 
     NewCellAt(StartX, StartY,0);
-
-    
 
     CreateHuegeneLoop();
 }
@@ -48,46 +46,52 @@ function CreateHuegeneLoop()
 
     refreshIntervalId = setInterval(function () {
 
-        //if (paused)
-        //    break;
+        if (!paused) { //hate nesting this much but YOUVE TWISTED MY ARM!!
 
-        //iterate through all active queues
-        for (var i = 0; i < ColorQueues.length; i++) {
+            //iterate through all active queues
+            for (var i = 0; i < ColorQueues.length; i++)
+            {
+                //make rendering faster with more worms!!
+                if (SplitColorQueues && ColorQueues[i].length > SplitColorQueuesAfter) {
+                    ColorQueues.push(ColorQueues[i].splice(SplitColorQueuesAfter / 2, SplitColorQueuesAfter / 2));
+                    Continue = true;
+                }
 
-            //end when all queues are empty
-            if (ColorQueues.length <= 0) {
-                console.log("ITS OVER");
-                clearInterval(refreshIntervalId);
-                return;
+                ProcessNextCell(i);
+
+                //remove empty qs
+                if (ColorQueues[i].length == 0) {
+                    ColorQueues.splice(i, 1);
+                }
             }
 
-            //make rendering faster with more worms!!
-            if (SplitColorQueues && ColorQueues[i].length > SplitColorQueuesAfter) {
-                ColorQueues.push(ColorQueues[i].splice(SplitColorQueuesAfter / 2, SplitColorQueuesAfter / 2));
-                Continue = true;
+            //start new queue if wormcount calls for it (and its been enough time)
+            if (wormsPresent < BaseWormCount && Date.now() - startTime >= timeBetweenWorms) {
+                console.log("new guy!");
+                startTime = Date.now();
+
+                NewRandomCell(wormsPresent);
+
+                wormsPresent++;
             }
 
-            ProcessNextCell(i);
+            AttemptEndLoop();
 
-            //remove empty qs
-            if (ColorQueues[i].length == 0) {
-                ColorQueues.splice(i, 1);
-            }
-        }
-
-        //start new queue if wormcount calls for it (and its been enough time)
-        if (wormsPresent < BaseWormCount && Date.now() - startTime >= timeBetweenWorms) {
-            console.log("new guy!");
-            startTime = Date.now();
-
-            NewRandomCell(wormsPresent);
-
-            wormsPresent++;
         }
 
     }, 1);//run this thang every 0.001 seconds
 
     //really gotta clarify i didnt write 'thang' there. the example i found just had that and i HAD to include it
+}
+
+//end when ColorQueues is empty
+function AttemptEndLoop() {
+    
+    if (ColorQueues.length <= 0) {
+        console.log("ITS OVER");
+        clearInterval(refreshIntervalId);
+        refreshIntervalId = null;
+    }
 }
 
 //returns false if this colorQueue is empty. true if its got stuff in it
@@ -108,6 +112,9 @@ function ProcessNextCell(QueueIndex)
 
 function NewCellAt(x, y, QueueIndex)
 {
+    if (Grid[x][y].Queued)
+        return;
+
     Grid[x][y] = GetRandomColor();
     var center = Grid[x][y];
     center.Queued = true;

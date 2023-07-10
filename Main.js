@@ -8,11 +8,12 @@ var BaseWormCount;
 var RandomOffset;
 var BlendColors; //alternative: choose random neighbor.
 var PathModes = ["Worms", "Burst", "Even Spread" ]; //ordered from coolest to least coolest
-
-//boring settings:
 var SplitColorQueues = false;
-var SplitColorQueuesAfter = 30;
 
+//boring settings
+var SplitColorQueuesAfter = 30;
+var MenuTransparency = 0.5;
+ 
 //SECRET Settings!
 var MillisecondsItTakesForWormsToAppear; //,aking long variable names is good practice actually
 
@@ -20,6 +21,7 @@ var MillisecondsItTakesForWormsToAppear; //,aking long variable names is good pr
 var refreshIntervalId;
 var _pathModesIndex;
 var paused = false;
+var ShowingMenus = true;
 
 //draw stuff
 var Grid;

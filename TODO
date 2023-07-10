@@ -17,10 +17,12 @@ advanced settings menu for weird things
 
 clear canvas button
 
+menus transparent until mouse over
+
 
 = CONTROLS =
 X space : opens settings
-_ esc : pause render
+X esc : pause render
 _ click while render : add new worm
 _ shift click while render : start over
 _ R : reset grid and randomize settings  

@@ -8,9 +8,9 @@
         <link rel="stylesheet" href="style.css">
 
 
-        <center id="info" style="align-content:center; color: white; opacity:1">
+        <center id="info" style="align-content: center; color: white; opacity: 1; transition: opacity 1s.5s">
 
-            <div style="height: 30%;">
+            <div style="height: 30%; ">
                 <p>Procedural Painting (Working title)</p>
 
                 <p>Press Space for settings.</p>
@@ -21,8 +21,7 @@
             <p style="color: gray; position: fixed; bottom: 5px; width: 100%; text-align: center ">Made by Toby Schamberger</p>
         </center>
 
-
-        <div id="settings" class="menu" style="opacity:1">
+        <div id="settings" class="menu" style="left:2%; ">
 
             <!-- Pixel Size -->
             <p id="pixelSizeText">Pixel Size: </p>
@@ -57,8 +56,18 @@
             <!-- Randomizer Button -->
             <button id="randomizeButton">Randomize Settings</button>
 
-            <p>more features coming soon! im tired right now</p>
             <p>Press space to close this menu.</p>
+        </div>
+
+        <div id="menuBar" class="menu" style="right: 2%; ">
+
+            <div id="hexDisplay" class="hexDisplay" style="opacity: 1;"></div>
+
+            <p>Ctrl+click to copy hex code</p>
+
+            <p>Press Esc to pause</p>
+            <p>Press R to reset</p>
+            <p>Shift-click on a color to regenerate with that color (coming soon)</p>
         </div>
 
         <canvas id="canvas" width="2000px" height="1000px" style="border-color: black;"></canvas>

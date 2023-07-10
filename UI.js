@@ -4,6 +4,7 @@ var canvas = document.getElementById("canvas");
 var info = document.getElementById("info");
 
 var settings = document.getElementById("settings");
+var menuBar = document.getElementById("menuBar");
 
 var pixelSizeText = document.getElementById("pixelSizeText");
 var pixelSizeSlide = document.getElementById("pixelSizeSlide");
@@ -24,12 +25,18 @@ var fastRenderBox = document.getElementById("fastRenderBox");
 
 var randomizeButton = document.getElementById("randomizeButton");
 
+
+var hexDisplay = document.getElementById("hexDisplay");
+
+
 function ResetUI() {
     FitCanvas();
 
     //set settings
     UpdateSettingsMenu();
-       
+
+    FadeOpacity(settings, MenuTransparency, 0);
+    FadeOpacity(menuBar, MenuTransparency, 0);
 }
 
 function UpdateSettingsMenu() {
@@ -50,7 +57,7 @@ function UpdateSettingsMenu() {
     
     */
     colorVarianceText.textContent = "Color Variance: " + RandomOffset;
-    colorSlider.value = RandomOffset;
+    //colorSlider.value = RandomOffset;
 
     blendCheckBox.checked = BlendColors;
 
@@ -59,8 +66,13 @@ function UpdateSettingsMenu() {
 
 function HideUI()
 {
-    LerpUITransparency(info, 0, 1);
-    LerpUITransparency(settings, 0, 2);
+    ShowingMenus = false;
+
+    MoveMenus(false);
+
+    info.style.opacity = 0;
+    settings.style.opacity = 0;
+    menuBar.style.opacity = 0;
 }
 
 function FitCanvas() {
@@ -76,8 +88,16 @@ function FitCanvas() {
     CreateGrid();
 }
 
+//the cooler daniel:
+function FadeOpacity(element, targetValue, seconds) {
+    var temp = element.style.transitionDelay;
+    element.style.transition = "opacity " + seconds+"s";
+    element.style.opacity = targetValue;
+    element.style.transition = temp;
+}
 
 //fades away ui element over a second
+//didnt realize there was just a transition property in css...
 function LerpUITransparency(element, targetValue, seconds)
 {
     //console.log("fading...");
@@ -91,22 +111,26 @@ function LerpUITransparency(element, targetValue, seconds)
 
     var fadeInterval = setInterval(function ()
     {
-        if (i >= 1) {
-            //console.log("element faded");
-            clearInterval(fadeInterval);
-            //info.style.display = "none";
-            return;
-        }
-
         i += (0.01 / seconds);
         a = (startValue * (1-i)) + (targetValue * i);
 
         element.style.opacity = a; //omg we love roundoff errors
 
+        //end interval
+        if (i >= 1) {
+            //console.log("element faded");
+            clearInterval(fadeInterval);
+
+            //info.style.display = "none";
+            return;
+        }
+
     }, seconds / 100);
+
 }
 
 function OnWindowResize() {
     FitCanvas();
     CreateGrid();
-}
+};
+
