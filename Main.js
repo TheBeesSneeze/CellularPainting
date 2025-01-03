@@ -22,6 +22,7 @@ var refreshIntervalId;
 var _pathModesIndex;
 var paused = false;
 var ShowingMenus = true;
+var timeBetweenWorms;
 
 //draw stuff
 var Grid;

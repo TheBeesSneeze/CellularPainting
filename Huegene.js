@@ -41,7 +41,7 @@ function NewHuegene(StartX, StartY)
 function CreateHuegeneLoop()
 {
     var startTime = Date.now();
-    var timeBetweenWorms = MillisecondsItTakesForWormsToAppear / BaseWormCount;
+    timeBetweenWorms = CalculateTimeBetweenWorms();
     var wormsPresent = 1;
 
     refreshIntervalId = setInterval(function () {
@@ -307,4 +307,14 @@ function FixGrid() {
         }
     }
     console.log("fixed!");
+}
+
+//just returns the time. doesnt set the variable.
+function CalculateTimeBetweenWorms() {
+    var a = MillisecondsItTakesForWormsToAppear / BaseWormCount;
+
+    if (SplitColorQueues)
+        a = a / BaseWormCount;
+
+    return a;
 }

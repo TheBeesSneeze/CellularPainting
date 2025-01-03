@@ -13,6 +13,8 @@ function RandomizeSettings() {
 
 	SplitColorQueues = RandomBool();
 
+	timeBetweenWorms = CalculateTimeBetweenWorms();
+
 	FitCanvas();
 }
 
